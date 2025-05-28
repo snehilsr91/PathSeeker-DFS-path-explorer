@@ -44,7 +44,7 @@ This project aims to bridge the gap between theoretical graph concepts learned i
 ## File Structure
 
 The project is organized as follows:
-
+```
 path-explorer/
 ├── index.html # Main HTML file for the UI
 ├── css/
@@ -63,7 +63,7 @@ path-explorer/
 │ ├── bfs_comparison.html # Linked study material
 │ └── complexity_optimization.html # Linked study material
 └── README.md # This file
-
+```
 
 
 
