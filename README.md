@@ -4,12 +4,11 @@
 
 ## Author Details
 
-*   **Name:** [Your Full Name]
-*   **Student ID/Roll No.:** [Your Student ID or Roll Number]
+*   **Name:** Snehil Singh Rokey
+*   **USN:** 4NI23CI105
 *   **Course:** Discrete Mathematical Structures
-*   **Project Submission for:** [Professor's Name / Course Name & Number, e.g., DMS Experiential Learning Project]
-*   **Email:** [Your Email Address (Optional)]
-*   **GitHub Profile:** [Link to Your GitHub Profile (Optional, if you host it there)]
+*   **Project Submission for:** DMS Experiential Learning Project
+*   **Email:** snehilsr91@gmail.com
 
 ---
 
