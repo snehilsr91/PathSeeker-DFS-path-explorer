@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comparison: DFS vs BFS for Path Finding</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        body { padding: 20px; max-width: 800px; margin: auto; }
+        h1, h2, h3 { color: #337ab7; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .pros { color: green; }
+        .cons { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Comparison: DFS vs. BFS for Path Finding</h1>
+
+    <p>Both Depth-First Search (DFS) and Breadth-First Search (BFS) are fundamental graph traversal algorithms that can be adapted for path finding. However, they have different characteristics and are suited for different types of path-finding problems.</p>
+
+    <h2>Core Mechanics</h2>
+    <ul>
+        <li><strong>Depth-First Search (DFS):</strong> Explores as far as possible along each branch before backtracking. It uses a stack (often implicitly via recursion) to keep track of nodes to visit.</li>
+        <li><strong>Breadth-First Search (BFS):</strong> Explores all neighbor nodes at the present depth prior to moving on to nodes at the next depth level. It uses a queue to keep track of nodes to visit.</li>
+    </ul>
+
+    <h2>Comparison Table</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Feature</th>
+                <th>Depth-First Search (DFS)</th>
+                <th>Breadth-First Search (BFS)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Primary Goal</strong></td>
+                <td>Explores one path to its depth. Good for checking connectivity, cycle detection, topological sort.</td>
+                <td>Explores level by level. Good for finding the shortest path in terms of number of edges.</td>
+            </tr>
+            <tr>
+                <td><strong>Path Finding (Shortest Path)</strong></td>
+                <td>Not guaranteed to find the shortest path (in terms of edges or weight) first. It might find a long path before a shorter one.</td>
+                <td>Guaranteed to find the shortest path in terms of the number of edges in an unweighted graph. For weighted graphs, Dijkstra's algorithm (a modification of BFS) is used.</td>
+            </tr>
+            <tr>
+                <td><strong>Finding All Paths</strong></td>
+                <td><span class="pros">More natural to implement for finding all paths</span> due to its recursive, backtracking nature. Each recursive call explores a new branch.</td>
+                <td><span class="cons">More complex to adapt for finding all paths.</span> It requires storing many partial paths simultaneously, potentially leading to high memory usage.</td>
+            </tr>
+            <tr>
+                <td><strong>Space Complexity</strong></td>
+                <td>O(V) in the worst case for the recursion stack (or explicit stack), where V is the number of vertices (if it explores a single long path). For finding all paths, can be much higher due to storing paths.</td>
+                <td>O(V) in the worst case for the queue (e.g., a star graph or a complete graph where all nodes are at the same level from the source). For finding all paths, memory can be a significant issue.</td>
+            </tr>
+            <tr>
+                <td><strong>Time Complexity (Single Path/Traversal)</strong></td>
+                <td>O(V + E), where V is vertices and E is edges.</td>
+                <td>O(V + E).</td>
+            </tr>
+            <tr>
+                <td><strong>Time Complexity (Finding All Paths)</strong></td>
+                <td>Can be exponential, O(V! * E) or similar, as the number of simple paths can be very large.</td>
+                <td>Also exponential if adapted to find all paths.</td>
+            </tr>
+            <tr>
+                <td><strong>Suitability for Path Explorer Project</strong></td>
+                <td><span class="pros">Well-suited for this project's goal of enumerating all paths</span> and visualizing the exploration and backtracking process.</td>
+                <td>Less suitable for the "find all paths" primary goal of this project, though excellent for "find shortest path (unweighted)".</td>
+            </tr>
+            <tr>
+                <td><strong>Backtracking Visualization</strong></td>
+                <td><span class="pros">Backtracking is an inherent part of DFS</span>, making it easy to visualize this step.</td>
+                <td>Backtracking is not a direct concept in standard BFS; it explores systematically without needing to "undo" steps in the same way.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>When to Use Which for Path Finding</h2>
+    <ul>
+        <li><strong>Use BFS if:</strong>
+            <ul>
+                <li>You need to find the shortest path in an unweighted graph (in terms of the number of edges).</li>
+                <li>You are exploring a graph level by level.</li>
+            </ul>
+        </li>
+        <li><strong>Use DFS if:</strong>
+            <ul>
+                <li>You need to find *all* paths between two nodes (as in this project).</li>
+                <li>You need to check for connectivity or cycles.</li>
+                <li>Memory for the recursion stack is less of a concern than storing many parallel paths (though for *all* paths, both can be memory-intensive).</li>
+                <li>You want to explore a particular branch deeply before trying others.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Conclusion for "Path Explorer" Project</h2>
+    <p>For the "Path Explorer: Finding All Paths Using DFS" project, DFS is the more appropriate choice. Its inherent backtracking mechanism aligns well with the requirement to enumerate every possible path between a source and destination. While BFS excels at finding the shortest path (by edge count), adapting it to find all paths is generally less straightforward and can be more memory-intensive for storing intermediate states of multiple paths simultaneously.</p>
+</body>
+</html>

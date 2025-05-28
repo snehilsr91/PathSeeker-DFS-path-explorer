@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PathSeeker: DFS Path Explorer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="lib/vis-network.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PathSeeker: A DFS-Powered Graph Path Explorer</h1>
+        </header>
+
+        <div class="main-content">
+            <div class="controls-panel">
+                <h2>Graph Creation</h2>
+                <div class="form-group">
+                    <label for="node-id">Node ID:</label>
+                    <input type="text" id="node-id" placeholder="e.g., A">
+                    <button id="add-node-btn">Add Node</button>
+                </div>
+                <div class="form-group">
+                    <label>Edge (From → To):</label>
+                    <div class="input-group">
+                        <input type="text" id="edge-from" placeholder="Source Node ID">
+                        <input type="text" id="edge-to" placeholder="Target Node ID">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="edge-weight">Weight (optional):</label>
+                    <input type="number" id="edge-weight" value="1" min="0">
+                    <button id="add-edge-btn">Add Edge</button>
+                </div>
+                 <div class="form-group">
+                    <label for="graph-type">Graph Type:</label>
+                    <select id="graph-type">
+                        <option value="undirected">Undirected</option>
+                        <option value="directed">Directed</option>
+                    </select>
+                </div>
+                <button id="reset-graph-btn">Reset Graph</button>
+                <button id="load-sample-graph-btn">Load Sample Graph</button>
+
+                <h2>Path Finding</h2>
+                <div class="form-group">
+                    <label for="source-node">Source Node:</label>
+                    <input type="text" id="source-node" placeholder="Start Node ID">
+                </div>
+                <div class="form-group">
+                    <label for="dest-node">Destination Node:</label>
+                    <input type="text" id="dest-node" placeholder="End Node ID">
+                </div>
+                <button id="find-paths-btn">Find Paths (DFS)</button>
+
+                <h2>Algorithm Controls</h2>
+                <div class="form-group form-group-slider">
+                    <label for="animation-speed">Speed:</label>
+                    <input type="range" id="animation-speed" min="50" max="2000" value="500" step="50">
+                    <span id="speed-value">500ms</span>
+                </div>
+                <div class="form-group">
+                    <button id="pause-resume-btn" disabled>Pause</button>
+                    <button id="step-forward-btn" disabled>Step Forward</button>
+                </div>
+            </div>
+
+            <div class="visualization-panel">
+                <h2>Graph Visualization</h2>
+                <div id="graph-network"></div>
+                <div id="status-message">Status: Ready</div>
+
+                <!-- MOVED RESULTS PANEL CONTENT HERE -->
+                <div class="results-area-within-viz">
+                    <h3>Discovered Paths</h3>
+                    <div class="form-group">
+                        <label for="sort-paths">Sort by:</label>
+                        <select id="sort-paths">
+                            <option value="discovery">Discovery Order</option>
+                            <option value="length">Length (Nodes)</option>
+                            <option value="cost">Cost (Weight)</option>
+                        </select>
+                    </div>
+                    <ul id="paths-list"></ul>
+                </div>
+                <!-- END OF MOVED CONTENT -->
+            </div>
+
+            <div class="results-panel"> ... </div>
+
+        </div>
+
+        <div class="study-elements">
+            <h2>Study Elements</h2>
+            <div class="study-section">
+                <h3>Explanation of DFS-based Path Finding</h3>
+                <p>Depth-First Search (DFS) is an algorithm for traversing or searching tree or graph data structures.
+                   The algorithm starts at a chosen root node (or an arbitrary node in a graph) and explores as far as possible along each branch before backtracking.
+                   To find all paths, DFS is adapted:
+                   1. Start DFS from the source node.
+                   2. Keep track of the current path.
+                   3. If the destination node is reached, store the current path.
+                   4. Crucially, to find *all* paths, we must allow revisiting nodes *on different paths*. This means when backtracking, we "unmark" a node as visited for the current path exploration, allowing other paths to use it.
+                   5. Explore all unvisited (for the current path) neighbors recursively.
+                   6. Backtrack by removing the current node from the path and its visited status for this specific path attempt.
+                </p>
+                <p><a href="study/dfs_explanation.html" target="_blank">Read more...</a></p>
+            </div>
+            <div class="study-section">
+                <h3>Comparison with BFS for Path Finding</h3>
+                <p>
+                    Breadth-First Search (BFS) explores neighbors level by level.
+                    - BFS is guaranteed to find the shortest path in terms of the number of edges in unweighted graphs.
+                    - DFS explores one path as deeply as possible. It's not inherently designed to find the shortest path first.
+                    - For finding *all* paths, DFS is generally more natural due to its recursive, backtracking nature. Adapting BFS to find all paths is more complex and less memory-efficient as it might need to store many partial paths simultaneously.
+                </p>
+                <p><a href="study/bfs_comparison.html" target="_blank">Read more...</a></p>
+            </div>
+            <div class="study-section">
+                <h3>Time Complexity and Potential Optimizations</h3>
+                <p>
+                    The time complexity of finding all paths in a graph can be exponential in the worst case (e.g., O(V! * E) or O(V^V) for dense graphs if many paths exist), as the number of simple paths can be very large. V is vertices, E is edges.
+                    - If only simple paths (no repeated vertices) are considered, the number of paths is bounded.
+                    - Optimizations:
+                        - Pruning: If a path length/cost exceeds a known bound or a user-defined limit, stop exploring that path.
+                        - Heuristics (for finding *some* paths, not all): A* search if a heuristic is available.
+                        - For very large graphs, finding *all* paths is often intractable. The focus shifts to finding optimal or a limited number of paths.
+                </p>
+                 <p><a href="study/complexity_optimization.html" target="_blank">Read more...</a></p>
+            </div>
+        </div>
+
+        <footer>
+            <p>Discrete Mathematical Structures Project - PathSeeker</p>
+        </footer>
+    </div>
+
+    <script src="lib/vis-network.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/graph.js"></script>
+    <script src="js/dfs.js"></script>
+    <script src="js/visualizer.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

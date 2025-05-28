@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DFS Path Finding Explained</title>
+    <link rel="stylesheet" href="../css/style.css"> <!-- Optional: for consistent styling -->
+    <style> body {padding: 20px; max-width: 800px; margin: auto;} </style>
+</head>
+<body>
+    <h1>Detailed Explanation of DFS for Path Finding</h1>
+    <p>Depth-First Search (DFS) is a fundamental graph traversal algorithm...</p>
+    <h2>Algorithm Steps for Finding All Paths</h2>
+    <ol>
+        <li>Initialize an empty list to store all found paths.</li>
+        <li>Create a `visited` set/array to keep track of nodes visited *in the current path* to avoid cycles within that specific path attempt.</li>
+        <li>Define a recursive DFS helper function: `dfs_util(current_node, destination_node, current_path, visited_in_path)`
+            <ul>
+                <li>Mark `current_node` as visited (add to `visited_in_path`).</li>
+                <li>Add `current_node` to `current_path`.</li>
+                <li>If `current_node` is the `destination_node`:
+                    <ul>
+                        <li>A path is found! Add a copy of `current_path` to the list of all paths.</li>
+                        <li>(Important for finding multiple paths: Do NOT return immediately. Backtrack to find other alternatives).</li>
+                    </ul>
+                </li>
+                <li>Else (not destination):
+                    <ul>
+                        <li>For each neighbor `v` of `current_node`:
+                            <ul>
+                                <li>If `v` is NOT in `visited_in_path`:
+                                    <ul>
+                                        <li>Recursively call `dfs_util(v, destination_node, current_path, visited_in_path)`.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Backtrack:
+                    <ul>
+                        <li>Remove `current_node` from `current_path`.</li>
+                        <li>Unmark `current_node` (remove from `visited_in_path`). This is CRUCIAL to allow this node to be part of other paths.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>Start the process by calling `dfs_util(source_node, destination_node, initial_empty_path, initial_empty_visited_set)`.</li>
+    </ol>
+    <h2>Visualization Aspects</h2>
+    <p>When visualizing:
+        - Highlight nodes as they are visited.
+        - Highlight edges as they are traversed.
+        - Show a different highlight for nodes during backtracking.
+        - Clearly indicate when a complete path is found.
+    </p>
+    <!-- ... more details, pseudocode, diagrams ... -->
+</body>
+</html>
